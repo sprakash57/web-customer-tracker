@@ -1,4 +1,4 @@
-package com.spring.service;
+	package com.spring.service;
 
 import java.util.List;
 
@@ -42,6 +42,13 @@ public class CustomerServiceImpl implements CustomerService {
 	public void deleteCustomer(int theId) {
 		
 		customerDAO.deleteCustomer(theId);
+	}
+
+	@Override
+	@Transactional
+	public List<Customer> searchCustomer(String searchBar) {
+		
+		return customerDAO.serchCustomer(searchBar);
 	}
 
 }

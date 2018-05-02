@@ -68,4 +68,30 @@ public class CutomerDAOimpl implements CustomerDAO {
 		query.executeUpdate();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Customer> serchCustomer(String searchBar) {
+		System.out.println(searchBar);
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = null;
+		
+		if (searchBar != null && searchBar.trim().length() > 0) {
+
+            // search for firstName or lastName ... case insensitive
+			query = session.createQuery("from Customer where lower(firstName) like :theName or lower(lastName) like :theName", Customer.class);
+			query.setParameter("theName", "%" + searchBar.toLowerCase() + "%");
+
+        }
+        else {
+            // theSearchName is empty ... so just get all customers
+            query = session.createQuery("from Customer", Customer.class);            
+        }
+		
+		List<Customer> customer = query.getResultList();
+		System.out.println(customer);
+		
+		return customer;
+	}
+
 }
